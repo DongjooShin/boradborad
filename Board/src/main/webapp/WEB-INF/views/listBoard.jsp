@@ -11,36 +11,38 @@
 	src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
 <script type="text/javascript">
-	$(function() {
-		$('#searchBtn').on("click",function(){
-			var keyword = $('#keyword').val();
-			var select = $("select option:selected").val();
-			self.location = "/board/SearchListAll?cpage=1&searchType="+select+"&keyword="+keyword;
+	function listAll() {
 
+		location.href = "/board/listAll?cpage=1&searchType= &keyword= ";
+	}
 
-			
-			
-		});
-	})
 </script>
 </head>
 <body>
 	<div>
 		<h2>search</h2>
-		<select name="searchType">
-			<option value="t">제목</option>
-			<option value="tc">제목+내용</option>
-			<option value="w">글쓴이</option>
-		</select>
-		<input type="text" name="keyword" id="keyword">
-		<input type="button" value="검색" id="searchBtn">
-	
+
+		<form action="search" method="post">
+			<select name="searchType">
+				<option value="t">제목</option>
+				<option value="tc">제목+내용</option>
+				<option value="w">글쓴이</option>
+			</select> <input type="text" name="keyword" id="keyword"
+				value="${page.keyword }"> <input type="hidden" name="cpage"
+				value="1"> <input type="submit" value="검색">
+		</form>
+
+		<c:if test="${page.keyword != ''}">
+			<input type="button" value="전체보기" onclick="listAll()">
+		</c:if>
 	</div>
 
 
 
 
 
+	<br>
+	<br>
 	<h2>List Board</h2>
 
 	<br>
@@ -57,7 +59,7 @@
 				<td width="50">조회수</td>
 			</tr>
 
-			<c:forEach var="list" items="${list }" varStatus="loop">
+			<c:forEach var="list" items="${list}" varStatus="loop">
 				<tr height="30" class="tdSpace">
 					<c:if test="${list.b_flag == 0 }">
 						<td width="50"><c:if test="${list.b_depth ==0 }">${list.b_num }</c:if></td>
@@ -71,7 +73,7 @@
 						<td width="50">${list.b_count }</td>
 					</c:if>
 
-					<c:if test="${list.b_flag != 0 }">
+					<c:if test="${list.b_flag != 0}">
 
 						<td width="50"></td>
 						<c:forEach begin="1" end="${list.b_depth }" step="1">&nbsp;&nbsp;&nbsp;</c:forEach>
@@ -98,28 +100,37 @@
 	<div style="text-align: center;">
 
 		<c:if test="${page.preIcon != 1 }">
-			<a href="/board/listAll?cpage=1"> << </a>
+			<a
+				href="/board/listAll?cpage=1&searchType=${page.searchType }&keyword=${page.keyword}">
+				<< </a>
 		</c:if>
 		<c:if test="${page.preIcon != 1 }">
-			<a href="/board/listAll?cpage=${page.startBlock-1 }"> &nbsp;< </a>
+			<a
+				href="/board/listAll?cpage=${page.startBlock-1 }&searchType=${page.searchType }&keyword=${page.keyword}">
+				&nbsp;< </a>
 		</c:if>
 
-		<c:forEach var="page" begin="${page.startBlock }"
+		<c:forEach var="perPage" begin="${page.startBlock }"
 			end="${page.endBlock }" step="1">
-			<a href="/board/listAll?cpage=${page }">&nbsp;${page }</a>
+			<a
+				href="/board/listAll?cpage=${perPage }&searchType=${page.searchType }&keyword=${page.keyword}">&nbsp;${perPage }</a>
 		</c:forEach>
 		<c:if test="${page.nextIcon != 1 }">
-			<a href="/board/listAll?cpage=${page.endBlock+1 }"> &nbsp;> </a>
+			<a
+				href="/board/listAll?cpage=${page.endBlock+1 }&searchType=${page.searchType }&keyword=${page.keyword}">
+				&nbsp;> </a>
 		</c:if>
 		<c:if test="${page.nextIcon != 1 }">
-			<a href="/board/listAll?cpage=${page.totalPage }"> &nbsp;>> </a>
+			<a
+				href="/board/listAll?cpage=${page.totalPage }&searchType=${page.searchType }&keyword=${page.keyword}">
+				&nbsp;>> </a>
 		</c:if>
 	</div>
 	<br>
 	<br>
 
 	<a href="/board/insertBoard">글쓰기</a>
-	
+
 
 
 

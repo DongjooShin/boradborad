@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	function goList() {
 
-		location.href = "/board/listAll?cpage=1";
+		location.href = "/board/listAll?cpage=1&searchType= &keyword= ";
 	}
 
 	function delBoard() {

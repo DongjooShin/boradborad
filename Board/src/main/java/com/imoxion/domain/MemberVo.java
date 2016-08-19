@@ -31,6 +31,11 @@ public class MemberVo {
 	public void setM_email(String m_email) {
 		this.m_email = m_email;
 	}
+	@Override
+	public String toString() {
+		return "MemberVo [m_id=" + m_id + ", m_name=" + m_name + ", m_pw=" + m_pw + ", m_email=" + m_email + "]";
+	}
+	
 	
 	
 }

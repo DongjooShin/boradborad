@@ -23,7 +23,9 @@ public class HomeController {
 		
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
-		return "redirect:/board/listAll?cpage=1";
+		return "redirect:/board/dashBoard";
+	/*	return "redirect:/member/memberSignUp";*/
 	}
+	
 	
 }

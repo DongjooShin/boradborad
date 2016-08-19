@@ -29,10 +29,10 @@ public class BoardService {
 		return boardDao.insertBoard(board);
 	}
 
-	public List<BoardVO> getListService(Criteria criteria) {
+	public List<BoardVO> getListService(SearchCriteria searchCriteria) {
 		
 		
-		return boardDao.getList(criteria);
+		return boardDao.getSearchList(searchCriteria);
 	}
 
 	public BoardVO getBoardService(int b_num) {
@@ -87,39 +87,38 @@ public class BoardService {
 		
 	}
 
-	public Criteria getPaging(int rowPerPage,int cpage) {
-		int totalCount = boardDao.listTotalCount();
-		Criteria crieria = new Criteria();
-		crieria.setTotalRow(totalCount);
-		crieria.setRowPerPage(rowPerPage);
-		crieria.setCpage(cpage);
-		crieria.calPaging();
-		return crieria;
+	public SearchCriteria getPaging(String searchType,String keyword,int rowPerPage,int cpage) {
+		
+
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("searchType", searchType);
+		map.put("keyword", keyword);
+		int searchTotalCount = boardDao.getSearchCount(map);
+		SearchCriteria searchCriteria = new SearchCriteria(searchTotalCount,cpage,rowPerPage,searchType,keyword);
+		searchCriteria.calPaging();
+		return searchCriteria;
 	}
 	
-	public SearchCriteria getSearchPaging(int rowPerPage,int cpage,int totalCount) {
+/*	public SearchCriteria getSearchPaging(int rowPerPage,int cpage,int totalCount) {
 		SearchCriteria searchCriteria = new SearchCriteria();
 		searchCriteria.setTotalRow(totalCount);
 		searchCriteria.setRowPerPage(rowPerPage);
 		searchCriteria.setCpage(cpage);
 		searchCriteria.calPaging();
 		return searchCriteria;
-	}
+	}*/
 
-	public SearchCriteria getSearch(String searchType, String keyword,int rowPerPage,int cpage) {
+	/*public SearchCriteria getSearch(int rowPerPage,SearchCriteria searchCriteria) {
 		HashMap<String,String> map = new HashMap<String,String>();
-		map.put("searchType", searchType);
-		map.put("keyword", keyword);
+		map.put("searchType", searchCriteria.getSearchType());
+		map.put("keyword", searchCriteria.getKeyword());
 		int searchTotalCount = boardDao.getSearchCount(map);
-		SearchCriteria searchCriteria = new SearchCriteria();
+		
 		searchCriteria.setTotalRow(searchTotalCount);
 		searchCriteria.setRowPerPage(rowPerPage);
-		searchCriteria.setCpage(cpage);
-		searchCriteria.setSearchType(searchType);
-		searchCriteria.setKeyword(keyword);
 		searchCriteria.calPaging();
 		return searchCriteria;
-	}
+	}*/
 
 	public List<BoardVO> getSearchListService(SearchCriteria searchCriteria) {
 		

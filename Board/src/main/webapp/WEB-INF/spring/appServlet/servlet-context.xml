@@ -25,12 +25,8 @@
 	</beans:bean>
 
 
-	<context:component-scan base-package="com.imoxion.springTest" />
-	<context:component-scan base-package="com.imoxion.controller" />
-	<context:component-scan base-package="com.imoxion.service" />
-	<context:component-scan base-package="com.imoxion.mapper" />
-	<context:component-scan base-package="com.imoxion.persistence" />
-	
+	<context:component-scan base-package="com.imoxion" />
+
 	<!-- <context:component-scan base-package="com.imoxion" use-default-filters="false"/> -->
 
 

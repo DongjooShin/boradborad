@@ -16,65 +16,65 @@
 
 	<select id="getGroupNum" resultType="int">
 
-		select max(b_num) from board;
+		select max(b_num) from board
 
 	</select>
 
 	<select id="getList" parameterType="Criteria" resultType="BoardVO">
-		select * from board order by b_group, b_step limit #{startRow} , #{endRow};
+		select * from board order by b_group, b_step limit #{startRow} , #{endRow}
 
 	</select>
 
 	<update id="insertGroupNumBoard">
 
-		update board set b_group = #{getGroupNum} where b_num =#{getGroupNum};
+		update board set b_group = #{getGroupNum} where b_num =#{getGroupNum}
 	</update>
 
 	<select id="getOverList" parameterType="BoardVO" resultType="BoardVO">
 
-		select * from board where b_group = #{b_group} and b_step > #{b_step};
+		select * from board where b_group = #{b_group} and b_step > #{b_step}
 	</select>
 
 	<update id="updateStep" parameterType="BoardVO">
-	 	update board set b_step = #{b_step} where b_num =#{b_num};
+	 	update board set b_step = #{b_step} where b_num =#{b_num}
 	</update>
 
 	<select id="getBoard" parameterType="int" resultType="BoardVO">
 		select *
-		from board where b_num = #{b_num};
+		from board where b_num = #{b_num}
 
 
 	</select>
 
 	<delete id="delBoard" parameterType="int">
 		delete from board where
-		b_group= #{b_group};
+		b_group= #{b_group}
 
 	</delete>
 
 	<update id="boardUpdate" parameterType="BoardVO">
 		update board set b_title
 		= #{b_title}, b_content = #{b_content} where b_num
-		= #{b_num};
+		= #{b_num}
 	</update>
 
 
 	<update id="updateCount" parameterType="BoardVO">
 		update board set b_count
-		= #{b_count} where b_num = #{b_num};
+		= #{b_count} where b_num = #{b_num}
 	</update>
 
 
 	<select id="listTotalCount" resultType="Integer">
-		select count(b_num) from board;
+		select count(b_num) from board
 	</select>
 	
 	<select id="getGroupCount" parameterType="int" resultType="int">
-	 select count(*) FROM board where b_flag = 0 and b_group = #{b_group};		
+	 select count(*) FROM board where b_flag = 0 and b_group = #{b_group}	
 	</select>
 	
 	<update id="updateFlag" parameterType="int">
-	update board set b_flag = 1 where b_num = #{b_num};
+	update board set b_flag = 1 where b_num = #{b_num}
 	</update>
 	
 	<select id="getSearchCount" parameterType="java.util.HashMap" resultType="Integer">
@@ -84,6 +84,14 @@
 	<if test="searchType != null">
 		<if test="searchType=='t'.toString()">
 		 	where b_title like CONCAT('%',#{keyword},'%')
+		</if>
+		
+		<if test="searchType=='tc'.toString()">
+		 	where b_title like CONCAT('%',#{keyword},'%') or b_content like CONCAT('%',#{keyword},'%')
+		</if>
+		
+		<if test="searchType=='w'.toString()">
+		 	where m_id like CONCAT('%',#{keyword},'%')
 		</if>
 	</if>
 	
@@ -97,9 +105,17 @@
 		<if test="searchType=='t'.toString()">
 		 	where b_title like CONCAT('%',#{keyword},'%')
 		</if>
+		
+		<if test="searchType=='tc'.toString()">
+		 	where b_title like CONCAT('%',#{keyword},'%') or b_content like CONCAT('%',#{keyword},'%')
+		</if>
+		
+		<if test="searchType=='w'.toString()">
+		 	where m_id like CONCAT('%',#{keyword},'%')
+		</if>
 	</if>
 	<![CDATA[
-	limit #{startRow} , #{endRow};
+	limit #{startRow} , #{endRow}
 	]]>
 	
 	
