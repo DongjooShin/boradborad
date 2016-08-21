@@ -3,6 +3,7 @@ package com.imoxion.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.imoxion.domain.Login;
 import com.imoxion.domain.MemberVo;
 import com.imoxion.persistence.MemberDao;
 
@@ -23,5 +24,9 @@ public class MemberService {
 
 	public int idCheckService(String id) {
 		return memberDao.idCheck(id);
+	}
+
+	public int loginService(Login login) {
+		return memberDao.idCheck(login);
 	}
 }

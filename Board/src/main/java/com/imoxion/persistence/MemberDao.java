@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.imoxion.domain.Login;
 import com.imoxion.domain.MemberVo;
 import com.imoxion.mapper.MemberMapper;
 
@@ -29,6 +30,16 @@ public class MemberDao {
 		}
 		else{
 			return 1; // 중복 회원 존재
+		}
+	}
+
+	public int idCheck(Login login) {
+		
+		if(sqlSession.getMapper(MemberMapper.class).login(login)==1){
+			return 0; // 아이디, 비밀번호 일치
+		}
+		else{
+			return 1; // 아이디, 비밀번호 불 일치
 		}
 	}
 }

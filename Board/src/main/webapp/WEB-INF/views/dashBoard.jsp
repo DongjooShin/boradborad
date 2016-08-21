@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 function login() {
-	
+	location.href = "/member/login";
 }
 function signUp() {
 	location.href = "/member/memberSignUp";
