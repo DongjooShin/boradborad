@@ -26,6 +26,7 @@ public class BoardService {
 	}
 
 	public int insertBoardService(BoardVO board) {
+		board.setB_step(board.getB_step()+1);
 		return boardDao.insertBoard(board);
 	}
 
@@ -123,6 +124,11 @@ public class BoardService {
 	public List<BoardVO> getSearchListService(SearchCriteria searchCriteria) {
 		
 		return boardDao.getSearchList(searchCriteria);
+	}
+
+	public void addStepService(BoardVO board) {
+		boardDao.addStep(board);
+		
 	}
 
 }

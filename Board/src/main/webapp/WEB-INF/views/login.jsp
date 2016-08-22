@@ -5,6 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<script type="text/javascript">
+function signUp() {
+	
+	location.href = "/member/memberSignUp";
+	
+}
+
+</script>
 <style type="text/css">
 #loginForm{
 	margin-left: 30%;
@@ -25,8 +33,8 @@
 		<form action="/member/login" method="post">
 		
 		<label>아 이 디 </label><input type="text" name = id size="30"><br>
-		<label>비밀번호</label><input type="text" name = pw size="30"><br>
-		<input type="submit" value="로그인"><input type="button" value="취소"><input type="button" value="회원가입">
+		<label>비밀번호</label><input type="password" name = pw size="30"><br>
+		<input type="submit" value="로그인"><input type="button" value="취소"><input type="button" value="회원가입" onclick="signUp()">
 		
 		
 		</form>

@@ -11,14 +11,14 @@
 
 function cancel() {
 	
-	location.href="/board/ReadBoard?b_num=${board.b_num }";
+	location.href="/board/ReadBoard?b_num=${board.b_num }&cpage=${cpage}";
 }
 
 </script>
 </head>
 <body>
 	<h1>수정 페이지</h1>
-	<form action="/board/ModifyBoard" method="post">
+	<form action="/board/ModifyBoard?cpage=${cpage}" method="post">
 		<input type="hidden" name="b_num" value="${board.b_num }">
 		
 		<div style="margin-left: 50px;">

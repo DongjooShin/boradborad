@@ -123,4 +123,9 @@ public class BoardDao {
 		return sqlSession.getMapper(BoardMapper.class).getSearchList(searchCriteria);
 	}
 
+	public void addStep(BoardVO board) {
+		sqlSession.getMapper(BoardMapper.class).addStep(board);
+		
+	}
+
 }

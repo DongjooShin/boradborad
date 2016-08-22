@@ -19,9 +19,9 @@
 </script>
 </head>
 <body>
-	<div>
-		<h2>search</h2>
 
+	<h2>search</h2>
+	<div>
 		<form action="search" method="post">
 			<select name="searchType">
 				<option value="t">제목</option>
@@ -36,6 +36,11 @@
 			<input type="button" value="전체보기" onclick="listAll()">
 		</c:if>
 	</div>
+
+	<div>
+		<a href="/board/logout">로그아웃</a>
+	</div>
+
 
 
 
@@ -65,7 +70,7 @@
 						<td width="50"><c:if test="${list.b_depth ==0 }">${list.b_num }</c:if></td>
 						<td width="300"><c:forEach begin="1" end="${list.b_depth }"
 								step="1">&nbsp;&nbsp;&nbsp;</c:forEach> <a
-							href="/board/ReadBoard?b_num=${list.b_num }"><c:if
+							href="/board/ReadBoard?b_num=${list.b_num }&cpage=${page.cpage}"><c:if
 									test="${list.b_depth !=0 }">ㄴ</c:if>${list.b_title }</a></td>
 						<td width="100">${list.m_id }</td>
 						<td width="100"><fmt:formatDate value="${list.b_date }"

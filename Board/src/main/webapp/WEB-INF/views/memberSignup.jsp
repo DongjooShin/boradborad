@@ -156,7 +156,7 @@ color: blue;
 	
 	<div>
 		<form action="/member/memberSignUp" method="post" name="signUp" onsubmit="return checkIdFuc()">	
-			<input type="text" id="idCheck" value="0">
+			<input type="hidden" id="idCheck" value="0">
 			<p>아이디</p><input type="text" name="m_id" id="m_id">	
 			<input type="button" value="중복확인" id="id_Check"> 
 			
@@ -165,8 +165,8 @@ color: blue;
 			<label id="UseId" class="idCheckLabel">사용가능한 아이디 입니다.</label>
 			
 			
-			<p>비밀번호</p><input type="text" name="m_pw" id="m_pw">
-			<p>비밀번호확인</p><input type="text" id="m_pw_check">
+			<p>비밀번호</p><input type="password" name="m_pw" id="m_pw">
+			<p>비밀번호확인</p><input type="password" id="m_pw_check">
 			<label id="unSamePassword" class="passwordCheckLabel">패스워드가 일치하지 않습니다.</label>
 			<label id="samePassword" class="passwordCheckLabel">패스워드가 일치합니다.</label>
 			

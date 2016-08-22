@@ -16,23 +16,23 @@
 <script type="text/javascript">
 	function goList() {
 
-		location.href = "/board/listAll?cpage=1&searchType= &keyword= ";
+		location.href = "/board/listAll?cpage=${cpage}&searchType= &keyword= ";
 	}
 
 	function delBoard() {
 
-		location.href = "/board/delBoard?b_num=${board.b_num }&b_group=${board.b_group}";
+		location.href = "/board/delBoard?cpage=${cpage}&b_num=${board.b_num }&b_group=${board.b_group}";
 	}
 
 	function ModifyBoard() {
 
-		location.href = "/board/ModifyBoard?b_num=${board.b_num }";
+		location.href = "/board/ModifyBoard?cpage=${cpage}&b_num=${board.b_num }";
 	}
 	
 	
 	
 	function answer() {
-		location.href = "/board/answerBoard?b_num=${board.b_num }";
+		location.href = "/board/answerBoard?cpage=${cpage}&b_num=${board.b_num }";
 	}
 
  
@@ -86,9 +86,11 @@
 			</tr>
 			<tr height="30" class="tdSpace">
 				<td colspan="4"><input type="button" value="리스트"
-					onclick="goList()"> <input type="button" value="수정"
+					onclick="goList()"> <input type="button" value="답변" onclick="answer()">
+					<c:if test="${userFlag==0}">
+					<input type="button" value="수정"
 					onclick="ModifyBoard()"> <input type="button" value="삭제"
-					onclick="delBoard()"><input type="button" value="답변" onclick="answer()"></td>
+					onclick="delBoard()"></c:if></td>
 			</tr>
 
 		</table>

@@ -40,7 +40,7 @@ public class MemberController {
 		
 		
 		
-		return "/memberSignup";
+		return "redirect:/member/login";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -59,7 +59,7 @@ public class MemberController {
 			System.out.println("비밀번호 불일치");
 		}
 		
-		return "/login";
+		return "redirect:/board/listAll?cpage=1&searchType= &keyword= ";
 	}
 	
 	

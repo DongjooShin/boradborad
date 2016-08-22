@@ -23,8 +23,7 @@
 				<tr height="30" class="tdSpace">
 					<td width="100">제목</td>
 					<td width="300"><input type="text" size="40" name="b_title">
-					<td width="100">작성자</td>
-					<td width="170"><input type="text" size="20" name="m_id">
+					
 				</tr>
 				<tr height="30" class="tdSpace">
 					<td colspan="4">내용</td>

@@ -28,4 +28,5 @@ public interface BoardMapper {
 	public void updateFlag(int b_num);
 	public Integer getSearchCount(HashMap<String, String> map);
 	public List<BoardVO> getSearchList(SearchCriteria searchCriteria);
+	public void addStep(BoardVO board);
 }

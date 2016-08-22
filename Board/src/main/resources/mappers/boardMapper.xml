@@ -115,10 +115,14 @@
 		</if>
 	</if>
 	<![CDATA[
-	limit #{startRow} , #{endRow}
+	order by b_group, b_step limit #{startRow} , #{endRow}
 	]]>
 	
 	
 	</select>
+	<update id="addStep" parameterType="BoardVO">
+	update board set b_step = b_step + 1 where b_step > #{b_step} and b_group = #{b_group}
+	
+	</update>
 	
 </mapper>
