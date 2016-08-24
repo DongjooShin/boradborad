@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
 import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
@@ -126,6 +127,17 @@ public class BoardDao {
 	public void addStep(BoardVO board) {
 		sqlSession.getMapper(BoardMapper.class).addStep(board);
 		
+	}
+
+	public void fileUpload(BoardAttaVo boardAtta) {
+		sqlSession.getMapper(BoardMapper.class).fileUpload(boardAtta);
+		System.out.println("입력 성공!");
+		
+	}
+
+	public List<BoardAttaVo> getboardAtta(int b_num) {
+		
+		return sqlSession.getMapper(BoardMapper.class).getboardAtta(b_num);
 	}
 
 }

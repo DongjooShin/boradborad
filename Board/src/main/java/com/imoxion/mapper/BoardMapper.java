@@ -3,6 +3,7 @@ package com.imoxion.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
 import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
@@ -29,4 +30,6 @@ public interface BoardMapper {
 	public Integer getSearchCount(HashMap<String, String> map);
 	public List<BoardVO> getSearchList(SearchCriteria searchCriteria);
 	public void addStep(BoardVO board);
+	public void fileUpload(BoardAttaVo boardAtta);
+	public List<BoardAttaVo> getboardAtta(int b_num);
 }

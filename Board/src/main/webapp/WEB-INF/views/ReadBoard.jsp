@@ -84,6 +84,10 @@
 				<td colspan="4"><textarea rows="20" cols="85" name="b_content"
 						readonly="readonly" style="width: 99%;">${board.b_content }</textarea></td>
 			</tr>
+			<tr>
+				<td colspan="1">첨부파일</td>
+				<td colspan="3"></td>
+			</tr>
 			<tr height="30" class="tdSpace">
 				<td colspan="4"><input type="button" value="리스트"
 					onclick="goList()"> <input type="button" value="답변" onclick="answer()">

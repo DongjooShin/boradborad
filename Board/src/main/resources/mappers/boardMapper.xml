@@ -125,4 +125,16 @@
 	
 	</update>
 	
+	<insert id="fileUpload" parameterType="BoardAttaVo">
+		insert into boardatta
+		(atta_id,b_num,atta_name,atta_size,atta_path)
+		values(#{atta_id},#{b_num},#{atta_name},#{atta_size},#{atta_path})
+		
+	</insert>
+	<select id="getboardAtta" parameterType="int" resultType="BoardAttaVo">
+	
+	select * from boardatta where b_num = #{b_num}
+	
+	</select>
+	
 </mapper>

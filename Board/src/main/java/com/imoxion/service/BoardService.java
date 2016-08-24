@@ -1,13 +1,19 @@
 package com.imoxion.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.print.attribute.HashAttributeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
 import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
@@ -20,6 +26,9 @@ public class BoardService {
 
 	private BoardDao boardDao;
 
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+	
 	@Autowired
 	public void setBoardDao(BoardDao boardDao) {
 		this.boardDao = boardDao;
@@ -129,6 +138,30 @@ public class BoardService {
 	public void addStepService(BoardVO board) {
 		boardDao.addStep(board);
 		
+	}
+
+	public void fileUploadService(MultipartFile file, int b_num) throws Exception {
+		String originalName = file.getOriginalFilename();
+		byte[] fileData = file.getBytes();
+		
+		UUID uid = UUID.randomUUID();
+		String saveName = uid.toString();
+		File target = new File(uploadPath, saveName);
+		FileCopyUtils.copy(fileData, target);
+		
+		BoardAttaVo boardAtta =new BoardAttaVo();
+		boardAtta.setAtta_id(saveName);
+		boardAtta.setB_num(b_num);
+		boardAtta.setAtta_name(originalName);
+		boardAtta.setAtta_size(file.getSize());
+		boardAtta.setAtta_path(uploadPath);
+		boardDao.fileUpload(boardAtta);
+		
+	}
+
+	public List<BoardAttaVo> getboardAttaService(int b_num) {
+		
+		return boardDao.getboardAtta(b_num);
 	}
 
 }

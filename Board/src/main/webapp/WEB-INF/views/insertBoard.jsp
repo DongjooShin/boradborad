@@ -17,7 +17,7 @@
 	<h1>게시판 작성</h1>
 
 	<br>
-	<form action="insertBoard" method="post">
+	<form action="insertBoard" method="post" enctype="multipart/form-data">
 		<div style="margin-left: 50px;">
 			<table border="1" cellpadding="0" cellspacing="0">
 				<tr height="30" class="tdSpace">
@@ -33,6 +33,11 @@
 
 					<td colspan="4"><textarea rows="20" cols="85" name="b_content"
 							style="width: 99%;"></textarea></td>
+				</tr>
+				<tr height="30" class="tdSpace">
+					<td colspan="1">파일 업로드</td>
+					<td colspan="3"><input multiple="multiple" type="file" name="file" />
+
 				</tr>	
 				<tr height="30" class="tdSpace">
 					<td colspan="4"><input type="submit" value="글쓰기"> <input
