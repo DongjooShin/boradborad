@@ -20,10 +20,10 @@
 
 	</select>
 
-	<select id="getList" parameterType="Criteria" resultType="BoardVO">
+<!-- 	<select id="getList" parameterType="Criteria" resultType="BoardVO">
 		select * from board order by b_group, b_step limit #{startRow} , #{endRow}
 
-	</select>
+	</select> -->
 
 	<update id="insertGroupNumBoard">
 
