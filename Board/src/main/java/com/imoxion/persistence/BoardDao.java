@@ -140,4 +140,8 @@ public class BoardDao {
 		return sqlSession.getMapper(BoardMapper.class).getboardAtta(b_num);
 	}
 
+	public BoardAttaVo getboardAttaBean(String atta_id) {
+		return sqlSession.getMapper(BoardMapper.class).getboardAttaBean(atta_id);
+	}
+
 }

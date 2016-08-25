@@ -136,5 +136,8 @@
 	select * from boardatta where b_num = #{b_num}
 	
 	</select>
+	<select id="getboardAttaBean" parameterType="String" resultType="BoardAttaVo">
+	select * from boardatta where atta_id = #{atta_id}
+	</select>
 	
 </mapper>

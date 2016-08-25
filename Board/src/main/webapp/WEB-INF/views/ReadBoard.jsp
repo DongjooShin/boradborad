@@ -35,6 +35,7 @@
 		location.href = "/board/answerBoard?cpage=${cpage}&b_num=${board.b_num }";
 	}
 
+
  
 	
 		function secondReply(r_num) {
@@ -86,15 +87,22 @@
 			</tr>
 			<tr>
 				<td colspan="1">첨부파일</td>
-				<td colspan="3"></td>
+				<td colspan="3">
+						<c:forEach var="row" items="${boardAtta }">
+							<a name="file" href="/board/download?atta_id=${row.atta_id }">${row.atta_name }</a>
+							<label>(${row.atta_size })KB</label>
+							<br>
+						</c:forEach>
+					
+				</td>
 			</tr>
 			<tr height="30" class="tdSpace">
 				<td colspan="4"><input type="button" value="리스트"
-					onclick="goList()"> <input type="button" value="답변" onclick="answer()">
-					<c:if test="${userFlag==0}">
-					<input type="button" value="수정"
-					onclick="ModifyBoard()"> <input type="button" value="삭제"
-					onclick="delBoard()"></c:if></td>
+					onclick="goList()"> <input type="button" value="답변"
+					onclick="answer()"> <c:if test="${userFlag==0}">
+						<input type="button" value="수정" onclick="ModifyBoard()">
+						<input type="button" value="삭제" onclick="delBoard()">
+					</c:if></td>
 			</tr>
 
 		</table>

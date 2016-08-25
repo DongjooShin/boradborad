@@ -140,7 +140,7 @@ public class BoardService {
 		
 	}
 
-	public void fileUploadService(MultipartFile file, int b_num) throws Exception {
+	public BoardAttaVo fileUploadService(MultipartFile file, int b_num) throws Exception {
 		String originalName = file.getOriginalFilename();
 		byte[] fileData = file.getBytes();
 		
@@ -156,12 +156,16 @@ public class BoardService {
 		boardAtta.setAtta_size(file.getSize());
 		boardAtta.setAtta_path(uploadPath);
 		boardDao.fileUpload(boardAtta);
-		
+		return boardAtta;
 	}
 
 	public List<BoardAttaVo> getboardAttaService(int b_num) {
 		
 		return boardDao.getboardAtta(b_num);
+	}
+
+	public BoardAttaVo getboardAttaBeanService(String atta_id) {
+				return boardDao.getboardAttaBean(atta_id);
 	}
 
 }

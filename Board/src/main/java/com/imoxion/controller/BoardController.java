@@ -3,14 +3,13 @@ package com.imoxion.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,18 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.AbstractView;
-
 import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
-import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
 import com.imoxion.domain.SearchCriteria;
+import com.imoxion.domain.SendEmail;
 import com.imoxion.service.BoardService;
 
 @Controller
 @RequestMapping("/board")
-public class BoardController{
+public class BoardController {
 
 	private BoardService boardService;
 
@@ -55,13 +52,24 @@ public class BoardController{
 
 	@RequestMapping(value = "/insertBoard", method = RequestMethod.POST)
 	public String postInsertBoard(Model model, BoardVO board, HttpSession session,
-			@RequestParam("file") MultipartFile filename[]) throws Exception {
+			@RequestParam("file") MultipartFile filename[], @RequestParam("email") String email) throws Exception {
 		board.setM_id((String) session.getAttribute("m_id"));
-		
+
 		int b_num = boardService.insertBoardService(board);
-		for (int i = 0; i < filename.length; i++) {
-			uploadFile(filename[i],b_num);
+		int i = 0;
+		List<BoardAttaVo> list = new ArrayList<>();
+		if (filename[0].getSize() != 0) {
+			for (i = 0; i < filename.length; i++) {
+				list.add(boardService.fileUploadService(filename[i], b_num));
+			}
 		}
+		System.out.println(i);
+		if (!email.equals("")) {
+			SendEmail sendMail = new SendEmail();
+			sendMail.mail(email, board, list);
+
+		}
+
 		return "redirect:/board/ReadBoard?b_num=" + b_num + "&cpage=1";
 	}
 
@@ -103,9 +111,10 @@ public class BoardController{
 		} else {
 			userFlag = 1;
 		}
-		List<BoardAttaVo> boardAtta = boardService.getboardAttaService(b_num);
-		
-		
+		List<BoardAttaVo> boardAtta = null;
+
+		boardAtta = boardService.getboardAttaService(b_num);
+		model.addAttribute("boardAtta", boardAtta);
 		model.addAttribute("userFlag", userFlag);
 		model.addAttribute("cpage", cpage);
 		model.addAttribute("board", board);
@@ -125,9 +134,11 @@ public class BoardController{
 	public String getModifyBoard(Model model, @RequestParam("b_num") int b_num, @RequestParam int cpage) {
 
 		BoardVO board = null;
+		List<BoardAttaVo> boardAtta = null;
 
+		boardAtta = boardService.getboardAttaService(b_num);
 		board = boardService.getBoardService(b_num);
-
+		model.addAttribute("boardAtta", boardAtta);
 		model.addAttribute("board", board);
 		model.addAttribute("cpage", cpage);
 		return "/modifyBoard";
@@ -153,7 +164,7 @@ public class BoardController{
 		board.setB_group(parentBoard.getB_group());
 		board.setB_depth(parentBoard.getB_depth() + 1);
 		board.setB_step(parentBoard.getB_step());
-		
+
 		boardService.addStepService(board);
 		System.out.println(board.toString());
 		boardService.insertBoardService(board);
@@ -192,31 +203,39 @@ public class BoardController{
 		return "";
 	}
 
-/*	@RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
-	public String postUploadForm(Model model, @RequestParam("file") MultipartFile filename[],
-			HttpServletRequest request) throws Exception {
+	/*
+	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
+	 * public String postUploadForm(Model model, @RequestParam("file")
+	 * MultipartFile filename[], HttpServletRequest request) throws Exception {
+	 * 
+	 * for (int i = 0; i < filename.length; i++) {
+	 * 
+	 * System.out.println(filename[i].getOriginalFilename());
+	 * System.out.println(filename[i].getSize());
+	 * System.out.println(filename[i].getContentType()); String savedName =
+	 * uploadFile(filename[i].getOriginalFilename(), filename[i].getBytes());
+	 * 
+	 * }
+	 * 
+	 * return "/fileUploadTest"; }
+	 */
 
-		for (int i = 0; i < filename.length; i++) {
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void getUploadForm(@RequestParam("atta_id") String atta_id, HttpServletResponse response)
+			throws IOException {
+		BoardAttaVo boardAtta = boardService.getboardAttaBeanService(atta_id);
+		byte fileByte[] = FileUtils
+				.readFileToByteArray(new File(boardAtta.getAtta_path() + "\\" + boardAtta.getAtta_id()));
 
-			System.out.println(filename[i].getOriginalFilename());
-			System.out.println(filename[i].getSize());
-			System.out.println(filename[i].getContentType());
-			String savedName = uploadFile(filename[i].getOriginalFilename(), filename[i].getBytes());
+		response.setContentType("application/octet-stream");
+		response.setContentLength(fileByte.length);
+		response.setHeader("Content-Disposition",
+				"attachment; fileName=\"" + URLEncoder.encode(boardAtta.getAtta_name(), "UTF-8") + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.getOutputStream().write(fileByte);
 
-		}
-	
-		return "/fileUploadTest";
-	}*/
-
-	private void uploadFile(MultipartFile file,int b_num) throws Exception {
-		
-		boardService.fileUploadService(file,b_num);
-		/*UUID uid = UUID.randomUUID();
-		String saveName = uid.toString() + "_" + originalName;
-		File target = new File(uploadPath, saveName);
-		FileCopyUtils.copy(fileData, target);*/
-		//return saveName;
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
 	}
-
 
 }

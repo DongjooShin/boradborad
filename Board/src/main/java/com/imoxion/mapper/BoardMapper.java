@@ -32,4 +32,5 @@ public interface BoardMapper {
 	public void addStep(BoardVO board);
 	public void fileUpload(BoardAttaVo boardAtta);
 	public List<BoardAttaVo> getboardAtta(int b_num);
+	public BoardAttaVo getboardAttaBean(String atta_id);
 }
