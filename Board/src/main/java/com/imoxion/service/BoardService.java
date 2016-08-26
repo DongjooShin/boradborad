@@ -95,7 +95,7 @@ public class BoardService {
 
 	public SearchCriteria getPaging(String searchType,String keyword,int rowPerPage,int cpage) {
 		
-
+System.out.println(keyword);
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("searchType", searchType);
 		map.put("keyword", keyword);
@@ -105,26 +105,6 @@ public class BoardService {
 		return searchCriteria;
 	}
 	
-/*	public SearchCriteria getSearchPaging(int rowPerPage,int cpage,int totalCount) {
-		SearchCriteria searchCriteria = new SearchCriteria();
-		searchCriteria.setTotalRow(totalCount);
-		searchCriteria.setRowPerPage(rowPerPage);
-		searchCriteria.setCpage(cpage);
-		searchCriteria.calPaging();
-		return searchCriteria;
-	}*/
-
-	/*public SearchCriteria getSearch(int rowPerPage,SearchCriteria searchCriteria) {
-		HashMap<String,String> map = new HashMap<String,String>();
-		map.put("searchType", searchCriteria.getSearchType());
-		map.put("keyword", searchCriteria.getKeyword());
-		int searchTotalCount = boardDao.getSearchCount(map);
-		
-		searchCriteria.setTotalRow(searchTotalCount);
-		searchCriteria.setRowPerPage(rowPerPage);
-		searchCriteria.calPaging();
-		return searchCriteria;
-	}*/
 
 	public List<BoardVO> getSearchListService(SearchCriteria searchCriteria) {
 		

@@ -70,9 +70,8 @@ public class BoardController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(Model model, SearchCriteria searchCriteria, @RequestParam int rowPerPage) {
-
-		return "redirect:/board/listAll?cpage=" + searchCriteria.getCpage() + "&rowPerPage=" + rowPerPage
-				+ "&searchType=" + searchCriteria.getSearchType() + "&keyword=" + searchCriteria.getKeyword();
+ 
+		return "redirect:/board/listAll?cpage="+searchCriteria.getCpage()+"&rowPerPage="+rowPerPage+"&searchType="+searchCriteria.getSearchType()+"&keyword="+ searchCriteria.getKeyword()+"";
 	}
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
@@ -178,15 +177,6 @@ public class BoardController {
 
 	}
 
-	/*
-	 * @RequestMapping(value = "/insertReply", method = RequestMethod.POST)
-	 * public String insertReply(Model model, ReplyVO reply) {
-	 * 
-	 * boardService.insertReplyService(reply); int b_num = reply.getB_num();
-	 * return "redirect:/board/ReadBoard?b_num=" + b_num + "";
-	 * 
-	 * }
-	 */
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {

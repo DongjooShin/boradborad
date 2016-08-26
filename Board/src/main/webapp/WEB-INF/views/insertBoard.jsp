@@ -74,8 +74,8 @@
 						</tr>
 						<tr height="30" class="tdSpace">
 							<td colspan="1">파일 업로드</td>
-							<td colspan="3"><input multiple="multiple" type="file"
-								name="file" class="form-group" />
+							<td colspan="3">
+							<input multiple="multiple" type="file" name="file" class="form-group" />
 						</tr>
 						<tr height="30" class="tdSpace">
 							<td colspan="4"><input type="submit" value="글쓰기" class="btn btn-primary"> <input
