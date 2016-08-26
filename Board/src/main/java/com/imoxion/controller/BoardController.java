@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
-import com.imoxion.domain.ReplyVO;
 import com.imoxion.domain.SearchCriteria;
 import com.imoxion.domain.SendEmail;
 import com.imoxion.service.BoardService;
@@ -38,59 +37,53 @@ public class BoardController {
 	@Resource(name = "uploadPath")
 	private String uploadPath;
 
-	@RequestMapping(value = "/dashBoard", method = RequestMethod.GET)
-	public String dashBoard() {
-
-		return "/dashBoard";
-	}
-
 	@RequestMapping(value = "/insertBoard", method = RequestMethod.GET)
-	public String getInsertBoard() {
-
+	public String getInsertBoard(@RequestParam("rowPerPage") int rowPerPage, Model model) {
+		model.addAttribute("rowPerPage", rowPerPage);
 		return "/insertBoard";
 	}
 
 	@RequestMapping(value = "/insertBoard", method = RequestMethod.POST)
 	public String postInsertBoard(Model model, BoardVO board, HttpSession session,
-			@RequestParam("file") MultipartFile filename[], @RequestParam("email") String email) throws Exception {
-		board.setM_id((String) session.getAttribute("m_id"));
+			@RequestParam("file") MultipartFile file[], @RequestParam("email") String email,
+			@RequestParam("rowPerPage") int rowPerPage) throws Exception {
 
+		board.setM_id((String) session.getAttribute("m_id"));
 		int b_num = boardService.insertBoardService(board);
-		int i = 0;
+
 		List<BoardAttaVo> list = new ArrayList<>();
-		if (filename[0].getSize() != 0) {
-			for (i = 0; i < filename.length; i++) {
-				list.add(boardService.fileUploadService(filename[i], b_num));
+
+		if (file[0].getSize() != 0) {
+			for (int i = 0; i < file.length; i++) {
+				list.add(boardService.fileUploadService(file[i], b_num));
 			}
 		}
-		System.out.println(i);
+
 		if (!email.equals("")) {
 			SendEmail sendMail = new SendEmail();
 			sendMail.mail(email, board, list);
 
 		}
 
-		return "redirect:/board/ReadBoard?b_num=" + b_num + "&cpage=1";
+		return "redirect:/board/ReadBoard?b_num=" + b_num + "&rowPerPage=" + rowPerPage + "&cpage=1";
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String search(Model model, SearchCriteria searchCriteria) {
+	public String search(Model model, SearchCriteria searchCriteria, @RequestParam int rowPerPage) {
 
-		return "redirect:/board/listAll?cpage=" + searchCriteria.getCpage() + "&searchType="
-				+ searchCriteria.getSearchType() + "&keyword=" + searchCriteria.getKeyword();
+		return "redirect:/board/listAll?cpage=" + searchCriteria.getCpage() + "&rowPerPage=" + rowPerPage
+				+ "&searchType=" + searchCriteria.getSearchType() + "&keyword=" + searchCriteria.getKeyword();
 	}
 
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-
 	public String listAll(Model model, @RequestParam("cpage") int cpage, @RequestParam("searchType") String searchType,
-			@RequestParam("keyword") String keyword) {
-
-		int rowPerPage = 3;
+			@RequestParam("keyword") String keyword, @RequestParam("rowPerPage") int rowPerPage) {
 
 		SearchCriteria searchCriteria = boardService.getPaging(searchType, keyword, rowPerPage, cpage);
 
 		List<BoardVO> list = boardService.getListService(searchCriteria);
 
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("page", searchCriteria);
 		model.addAttribute("list", list);
 		return "/listBoard";
@@ -98,7 +91,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/ReadBoard", method = RequestMethod.GET)
 	public String ReadBoard(Model model, @RequestParam("b_num") int b_num, @RequestParam("cpage") int cpage,
-			HttpSession session) {
+			HttpSession session, @RequestParam("rowPerPage") int rowPerPage) {
 		String m_id = (String) session.getAttribute("m_id");
 		int userFlag = 1;
 		BoardVO board = null;
@@ -114,6 +107,7 @@ public class BoardController {
 		List<BoardAttaVo> boardAtta = null;
 
 		boardAtta = boardService.getboardAttaService(b_num);
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("boardAtta", boardAtta);
 		model.addAttribute("userFlag", userFlag);
 		model.addAttribute("cpage", cpage);
@@ -123,21 +117,23 @@ public class BoardController {
 
 	@RequestMapping(value = "/delBoard", method = RequestMethod.GET)
 	public String delBoard(Model model, @RequestParam("b_num") int b_num, @RequestParam("b_group") int b_group,
-			@RequestParam int cpage) {
+			@RequestParam int cpage, @RequestParam("rowPerPage") int rowPerPage) {
 
 		boardService.delBoardService(b_num, b_group);
 
-		return "redirect:/board/listAll?cpage=" + cpage + "&searchType= &keyword= ";
+		return "redirect:/board/listAll?cpage=" + cpage + "&rowPerPage=" + rowPerPage + "&searchType= &keyword= ";
 	}
 
 	@RequestMapping(value = "/ModifyBoard", method = RequestMethod.GET)
-	public String getModifyBoard(Model model, @RequestParam("b_num") int b_num, @RequestParam int cpage) {
+	public String getModifyBoard(Model model, @RequestParam("b_num") int b_num, @RequestParam int cpage,
+			@RequestParam("rowPerPage") int rowPerPage) {
 
 		BoardVO board = null;
 		List<BoardAttaVo> boardAtta = null;
 
 		boardAtta = boardService.getboardAttaService(b_num);
 		board = boardService.getBoardService(b_num);
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("boardAtta", boardAtta);
 		model.addAttribute("board", board);
 		model.addAttribute("cpage", cpage);
@@ -145,39 +141,40 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/answerBoard", method = RequestMethod.GET)
-	public String getAnswer(Model model, @RequestParam("b_num") int b_num, @RequestParam int cpage) {
+	public String getAnswer(Model model, @RequestParam("b_num") int b_num, @RequestParam("rowPerPage") int rowPerPage,
+			@RequestParam int cpage) {
 
 		BoardVO board = null;
 
 		board = boardService.getBoardService(b_num);
-
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("board", board);
 		model.addAttribute("cpage", cpage);
 		return "/answerBoard";
 	}
 
 	@RequestMapping(value = "/answerBoard", method = RequestMethod.POST)
-	public String postAnswer(Model model, BoardVO board, @RequestParam int cpage, HttpSession session) {
+	public String postAnswer(Model model, BoardVO board, @RequestParam int cpage, HttpSession session,
+			@RequestParam("rowPerPage") int rowPerPage) {
 		board.setM_id((String) session.getAttribute("m_id"));
 		BoardVO parentBoard = boardService.getBoardService(board.getB_num());
-		System.out.println(parentBoard.toString());
 		board.setB_group(parentBoard.getB_group());
 		board.setB_depth(parentBoard.getB_depth() + 1);
 		board.setB_step(parentBoard.getB_step());
 
 		boardService.addStepService(board);
-		System.out.println(board.toString());
 		boardService.insertBoardService(board);
 
-		return "redirect:/board/ReadBoard?b_num=" + board.getB_num() + "&cpage=" + cpage;
+		return "redirect:/board/listAll?cpage=" + cpage + "&rowPerPage=" + rowPerPage + "&searchType= &keyword= ";
 	}
 
 	@RequestMapping(value = "/ModifyBoard", method = RequestMethod.POST)
-	public String postModifyBoard(Model model, BoardVO board, @RequestParam int cpage) {
+	public String postModifyBoard(Model model, BoardVO board, @RequestParam int cpage,
+			@RequestParam("rowPerPage") int rowPerPage) {
 		boardService.boardUpdateService(board);
 
 		int b_num = board.getB_num();
-		return "redirect:/board/ReadBoard?b_num=" + b_num + "&cpage=" + cpage;
+		return "redirect:/board/ReadBoard?b_num=" + b_num + "&rowPerPage="+rowPerPage+"&cpage=" + cpage;
 
 	}
 
@@ -203,22 +200,6 @@ public class BoardController {
 		return "";
 	}
 
-	/*
-	 * @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
-	 * public String postUploadForm(Model model, @RequestParam("file")
-	 * MultipartFile filename[], HttpServletRequest request) throws Exception {
-	 * 
-	 * for (int i = 0; i < filename.length; i++) {
-	 * 
-	 * System.out.println(filename[i].getOriginalFilename());
-	 * System.out.println(filename[i].getSize());
-	 * System.out.println(filename[i].getContentType()); String savedName =
-	 * uploadFile(filename[i].getOriginalFilename(), filename[i].getBytes());
-	 * 
-	 * }
-	 * 
-	 * return "/fileUploadTest"; }
-	 */
 
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void getUploadForm(@RequestParam("atta_id") String atta_id, HttpServletResponse response)
@@ -233,7 +214,6 @@ public class BoardController {
 				"attachment; fileName=\"" + URLEncoder.encode(boardAtta.getAtta_name(), "UTF-8") + "\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		response.getOutputStream().write(fileByte);
-
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 	}

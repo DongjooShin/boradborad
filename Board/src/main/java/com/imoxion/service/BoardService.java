@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.print.attribute.HashAttributeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
-import com.imoxion.domain.Criteria;
-import com.imoxion.domain.ReplyVO;
 import com.imoxion.domain.SearchCriteria;
-import com.imoxion.mapper.BoardMapper;
 import com.imoxion.persistence.BoardDao;
 
 @Service

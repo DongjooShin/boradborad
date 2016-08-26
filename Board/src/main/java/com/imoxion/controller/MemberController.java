@@ -54,7 +54,7 @@ public class MemberController {
 		if(loginOk==0){//비밀번호 일치
 			System.out.println("비밀번호 일치");
 			session.setAttribute("m_id", login.getId());
-			return "redirect:/board/listAll?cpage=1&searchType= &keyword= ";
+			return "redirect:/board/listAll?cpage=1&rowPerPage=5&searchType= &keyword= ";
 		}else {
 			System.out.println("비밀번호 불일치");
 			model.addAttribute("loginFlag", 0);

@@ -9,15 +9,21 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
 <link rel='stylesheet'
 	href='/resources/vendor/bootstrap/css/bootstrap.min.css'
 	type='text/css' rel="stylesheet" />
 
 <script type="text/javascript">
-	function listAll() {
-
-		location.href = "/board/listAll?cpage=1&searchType= &keyword= ";
+	function listAllPage() {
+		location.href = "/board/listAll?cpage=1&rowPerPage=${rowPerPage}&searchType= &keyword= ";
 	}
+	$(function() {
+		 $('#pageNum').on('change', function(){
+			var rowPerPage = $('#pageNum option:selected').val();
+			location.href = "/board/listAll?cpage=1&rowPerPage="+rowPerPage+"&searchType= &keyword= ";
+		});
+	})
 </script>
 
 <style type="text/css">
@@ -44,18 +50,27 @@
 						<input type="hidden" name="cpage" value="1">
 					</div>
 					<div class="col-lg-1">
-						<input type="submit" value="검색" class="btn btn-primary">
+						<input type="submit" value="검색" class="btn btn-primary"><input type="hidden" name="rowPerPage" value="${rowPerPage }">
 					</div>
 				</form>
+
 				<div class="col-lg-1">
 					<c:if test="${page.keyword != ''}">
-						<input type="button" value="전체보기" onclick="listAll()"
-							class="btn btn-primary">
+						<input type="button" value="전체보기" onclick="listAllPage()" class="btn btn-primary">
 					</c:if>
 				</div>
 
 
-				<div class="col-lg-1 col-md-offset-4">
+				<div class="col-lg-2 col-md-offset-2">
+					<select name="pageNum" class="form-control" id="pageNum">
+					<option value="5" >선택</option>
+						<option value="5" >5</option>
+						<option value="10">10</option>
+						<option value="15">15</option>
+					</select>
+				</div>
+
+				<div class="col-lg-1">
 					<a href="/board/logout" class="btn btn-primary">로그아웃</a>
 				</div>
 			</div>
@@ -84,9 +99,11 @@
 							<c:if test="${list.b_flag == 0 }">
 								<td width="50"><c:if test="${list.b_depth ==0 }">${list.b_num }</c:if></td>
 								<td width="300"><c:forEach begin="1" end="${list.b_depth }"
-										step="1">&nbsp;&nbsp;&nbsp;</c:forEach> <a
-									href="/board/ReadBoard?b_num=${list.b_num }&cpage=${page.cpage}"><c:if
-											test="${list.b_depth !=0 }">ㄴ</c:if>${list.b_title }</a></td>
+										step="1">&nbsp;&nbsp;&nbsp;</c:forEach> 
+			<a href="/board/ReadBoard?b_num=${list.b_num }&cpage=${page.cpage}&rowPerPage=${rowPerPage}">
+			<c:if test="${list.b_depth !=0 }">ㄴ</c:if>${list.b_title }
+			</a>
+			</td>
 								<td width="100">${list.m_id }</td>
 								<td width="100"><fmt:formatDate value="${list.b_date }"
 										type="both" /></td>
@@ -116,40 +133,40 @@
 
 		<br>
 		<div class="col-lg-1 col-md-offset-1">
-			<a href="/board/insertBoard" class="btn btn-primary">글쓰기</a>
+			<a href="/board/insertBoard?rowPerPage=${rowPerPage }" class="btn btn-primary">글쓰기</a>
 		</div>
 		<div class="col-lg-3 col-md-offset-2"
 			style="text-align: center; font-size: 20px">
 
 			<c:if test="${page.preIcon != 1 }">
 				<a
-					href="/board/listAll?cpage=1&searchType=${page.searchType }&keyword=${page.keyword}">
+					href="/board/listAll?cpage=1&rowPerPage=${rowPerPage }&searchType=${page.searchType }&keyword=${page.keyword}">
 					<< </a>
 			</c:if>
 			<c:if test="${page.preIcon != 1 }">
 				<a
-					href="/board/listAll?cpage=${page.startBlock-1 }&searchType=${page.searchType }&keyword=${page.keyword}">
+					href="/board/listAll?cpage=${page.startBlock-1 }&rowPerPage=${rowPerPage }&searchType=${page.searchType }&keyword=${page.keyword}">
 					&nbsp;< </a>
 			</c:if>
 
 			<c:forEach var="perPage" begin="${page.startBlock }"
 				end="${page.endBlock }" step="1">
 				<a
-					href="/board/listAll?cpage=${perPage }&searchType=${page.searchType }&keyword=${page.keyword}"
+					href="/board/listAll?cpage=${perPage }&rowPerPage=${rowPerPage }&searchType=${page.searchType }&keyword=${page.keyword}"
 					class="paginate_button">&nbsp;${perPage }</a>
 			</c:forEach>
 			<c:if test="${page.nextIcon != 1 }">
 				<a
-					href="/board/listAll?cpage=${page.endBlock+1 }&searchType=${page.searchType }&keyword=${page.keyword}">
+					href="/board/listAll?cpage=${page.endBlock+1 }&rowPerPage=${rowPerPage }&searchType=${page.searchType }&keyword=${page.keyword}">
 					&nbsp;> </a>
 			</c:if>
 			<c:if test="${page.nextIcon != 1 }">
 				<a
-					href="/board/listAll?cpage=${page.totalPage }&searchType=${page.searchType }&keyword=${page.keyword}">
+					href="/board/listAll?cpage=${page.totalPage }&rowPerPage=${rowPerPage }&searchType=${page.searchType }&keyword=${page.keyword}">
 					&nbsp;>> </a>
 			</c:if>
 		</div>
-		
+
 	</div>
 
 

@@ -19,42 +19,20 @@
 <script type="text/javascript">
 	function goList() {
 
-		location.href = "/board/listAll?cpage=${cpage}&searchType= &keyword= ";
+		location.href = "/board/listAll?cpage=${cpage}&rowPerPage=${rowPerPage}&searchType= &keyword= ";
 	}
-
 	function delBoard() {
 
-		location.href = "/board/delBoard?cpage=${cpage}&b_num=${board.b_num }&b_group=${board.b_group}";
+		location.href = "/board/delBoard?cpage=${cpage}&rowPerPage=${rowPerPage}&b_num=${board.b_num }&b_group=${board.b_group}";
 	}
-
 	function ModifyBoard() {
 
-		location.href = "/board/ModifyBoard?cpage=${cpage}&b_num=${board.b_num }";
+		location.href = "/board/ModifyBoard?cpage=${cpage}&rowPerPage=${rowPerPage}&b_num=${board.b_num }";
 	}
-	
-	
 	
 	function answer() {
-		location.href = "/board/answerBoard?cpage=${cpage}&b_num=${board.b_num }";
+		location.href = "/board/answerBoard?cpage=${cpage}&rowPerPage=${rowPerPage}&b_num=${board.b_num }";
 	}
-
-
- 
-	
-		function secondReply(r_num) {
-		
-		
-		
-		var replyBox = '<tr height="30">';
-		replyBox += '<td colspan="4"><textarea rows="4" cols="85" name="r_text" style="width: 99%;"></textarea></td></tr>';
-		replyBox += '<tr height="30" class="tdSpace"> <td colspan="4"><input type="submit" value="등록"></td> </tr>';
-		
-		$('#secondReply'+r_num).append(replyBox);
-		
-		
-		$('#replyText'+r_num).text("댓글 취소");
-		}
-	 
 	
 </script>
 </head>
@@ -112,50 +90,7 @@
 				</tr>
 
 			</table>
-			<table class="table table-striped table-bordered table-hover" id="dataTables-example">
-				<c:forEach var="reply" items="${reply }" varStatus="loop">
-
-					<tr height="30">
-						<td width="500" colspan="3">${reply.r_text }<a
-							style="margin-left: 10px;" onclick="secondReply(${reply.r_num})"
-							id="replyText${reply.r_num}" class="replyText">댓글 </a>
-						</td>
-						<td width="200" colspan="1"><fmt:formatDate
-								value="${reply.r_date }" type="both" /></td>
-
-					</tr>
-
-					<tr>
-						<td colspan="4"><div id="secondReply${reply.r_num}"></div></td>
-					</tr>
-
-
-
-				</c:forEach>
-			</table>
-
 			
-				<form action="/board/insertReply" method="post">
-					<input type="hidden" value="${board.b_num }" name="b_num">
-					<table  class="table table-striped table-bordered table-hover" id="dataTables-example"> 
-						<tr height="30" class="tdSpace">
-							<td colspan="4">댓글</td>
-
-						</tr>
-
-
-						<tr height="30" class="tdSpace">
-
-							<td colspan="4"><textarea rows="7" cols="85" name="r_text"
-									style="width: 99%;"></textarea></td>
-
-						</tr>
-						<tr height="30" class="tdSpace">
-							<td colspan="4"><input type="submit" value="등록"
-								class="btn btn-primary"></td>
-						</tr>
-					</table>
-				</form>
 			
 		</div>
 	</div>

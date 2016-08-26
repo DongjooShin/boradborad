@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
-import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
 import com.imoxion.domain.SearchCriteria;
 import com.imoxion.mapper.BoardMapper;
@@ -33,11 +32,6 @@ public class BoardDao {
 		}
 		return getGroupNum;
 		
-	}
-
-	public List<BoardVO> getList(Criteria criteria) {
-
-		return sqlSession.getMapper(BoardMapper.class).getList(criteria);
 	}
 
 	public BoardVO getBoard(int b_num) {

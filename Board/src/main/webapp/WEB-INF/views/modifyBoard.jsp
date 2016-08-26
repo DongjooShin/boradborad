@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	function cancel() {
 
-		location.href = "/board/ReadBoard?b_num=${board.b_num }&cpage=${cpage}";
+		location.href = "/board/ReadBoard?b_num=${board.b_num }&rowPerPage=${rowPerPage}&cpage=${cpage}";
 	}
 </script>
 </head>
@@ -40,7 +40,7 @@
 							<td width="250"><input type="text" size="40" name="b_title" class="form-control"
 								value="${board.b_title }"></td>
 							<td width="100">작성자</td>
-							<td width="200">${board.m_id }
+							<td width="200">${board.m_id } <input type="hidden" name="rowPerPage" value="${rowPerPage }">
 						</tr>
 						<tr height="30" class="tdSpace">
 							<td colspan="4">내용</td>

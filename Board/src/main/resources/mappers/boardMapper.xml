@@ -20,10 +20,6 @@
 
 	</select>
 
-<!-- 	<select id="getList" parameterType="Criteria" resultType="BoardVO">
-		select * from board order by b_group, b_step limit #{startRow} , #{endRow}
-
-	</select> -->
 
 	<update id="insertGroupNumBoard">
 
@@ -76,6 +72,7 @@
 	<update id="updateFlag" parameterType="int">
 	update board set b_flag = 1 where b_num = #{b_num}
 	</update>
+	
 	
 	<select id="getSearchCount" parameterType="java.util.HashMap" resultType="Integer">
 	<![CDATA[

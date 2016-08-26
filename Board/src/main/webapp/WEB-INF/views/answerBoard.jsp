@@ -27,7 +27,7 @@
 						<tr height="30" class="tdSpace">
 							<td width="100">제목</td>
 							<td width="300"><input type="text" size="40" name="b_title" class="form-control"
-								value="[re]${board.b_title }">
+								value="[re]${board.b_title }"><input type="hidden" name="rowPerPage" value="${rowPerPage }">
 						</tr>
 						<tr height="30" class="tdSpace">
 							<td colspan="4">내용</td>

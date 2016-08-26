@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.imoxion.domain.BoardAttaVo;
 import com.imoxion.domain.BoardVO;
-import com.imoxion.domain.Criteria;
 import com.imoxion.domain.ReplyVO;
 import com.imoxion.domain.SearchCriteria;
 
@@ -15,7 +14,6 @@ public interface BoardMapper {
 	public int insertBoard(BoardVO board);
 	public int getGroupNum();
 	public void insertGroupNumBoard(int getGroupNum);
-	public List<BoardVO> getList(Criteria criteria);
 	public BoardVO getBoard(int b_num);
 	public void delBoard(int b_num);
 	public void boardUpdate(BoardVO board);

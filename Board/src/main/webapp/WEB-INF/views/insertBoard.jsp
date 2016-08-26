@@ -56,11 +56,12 @@
 							<td width="100">제목</td>
 							<td width="300"><input type="text" size="50" name="b_title"class="form-control">
 							<td width="100"><input id="sendMail" type="button" size="40"
-								value="메일 발송" class="btn btn-primary">
+								value="메일 발송" class="btn btn-primary"><input type="hidden"  value="${rowPerPage }" name="rowPerPage">
 						</tr>
 						<tr id="Email" height="30" class="tdSpace">
 							<td colspan="1">이메일</td>
 							<td colspan="4"><input type="text" size="50" name="email" class="form-control" id="emailText">
+							
 						</tr>
 						<tr height="30" class="tdSpace">
 							<td colspan="4">내용</td>

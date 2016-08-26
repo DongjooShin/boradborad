@@ -13,6 +13,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('#idCheckLabel').css('display', 'block');
+		
 		$('#id_Check').on('click', function() {
 
 			var insertId = $('#m_id').val();
